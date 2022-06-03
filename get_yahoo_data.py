@@ -4,11 +4,11 @@ import datetime
 import csv
 import pandas_datareader as pdr
 
-#startDate = "2022-01-01"
+startDate = "2012-01-01"
 today = datetime.date.today()
-startDate= datetime.date.today()
+#startDate= datetime.date.today()
 
-infilename ="snp500_list.csv"
+infilename ="snp500_initial.csv"
 infile = open(infilename,"r")
 
 while True:
@@ -27,11 +27,11 @@ while True:
       outfile.write(data.to_string(index=False))
       outfile.write("\n")
       outfile.close()
-      print("--->", ticker.strip(),"<--- \n ",data,"\n")
+      print("---> Got ", ticker.strip()," data!")
 
     except ValueError:
       print('ValueErrror')
 
 
-print("---=== GOT ALL TICKER DATA from %s to %s ===---", startDate, today)
+print("---=== GOT ALL TICKER DATA from ",startDate," to ",today," ===---")
 infile.close()
