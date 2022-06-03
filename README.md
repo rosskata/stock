@@ -1,1 +1,3 @@
-# stock : some pythin experiments to scrape Yahoo! finance to get stock information
+# stock : some pytho experiments to scrape Yahoo! finance
+Currently readig data for S&P500 from the CSV file. 
+Known issues: some tickers are not recognized by Yahoo finance 
