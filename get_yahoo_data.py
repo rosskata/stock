@@ -1,27 +1,28 @@
-# iteratively get all ticker data for S&P500 companies
+''' iteratively get all ticker data for S&P500 companies'''
+
 # import libs
 import datetime
 import pandas_datareader as pdr
 
-startDate = "2012-01-01"
+STARTDATE = "2012-01-01"
 today = datetime.date.today()
-# startDate= datetime.date.today()
+# STARTDATE= datetime.date.today()
 
-infilename = "snp500_list.csv"
+INFILENAME = "snp500_list.csv"
 
-infile =  open(infilename, "r")
+infile =  open(INFILENAME, "r", encoding="utf-8")
 
 while True:
     ticker = infile.readline()
 
     if not ticker:
-      break
+        break
 
     try:
-        data = pdr.get_data_yahoo(ticker.strip(), startDate, today)
+        data = pdr.get_data_yahoo(ticker.strip(), STARTDATE, today)
         outfileName = ticker.strip()
         outfileNameString = outfileName + ".csv"
-        outfile = open(outfileNameString, "w")
+        outfile = open(outfileNameString, "w", encoding="utf-8")
         outfile.write(ticker)
         outfile.write(data.to_string(index=False))
         outfile.write("\n")
@@ -32,5 +33,5 @@ while True:
         print('ValueErrror')
 
 
-print("---=== GOT ALL TICKER DATA from ", startDate, " to ", today, " ===---")
+print("---=== GOT ALL TICKER DATA from ", STARTDATE, " to ", today, " ===---")
 infile.close()
