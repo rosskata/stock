@@ -1,4 +1,5 @@
 """Library to enable downloading of all nasdaq tickers that are traded currently"""
+import tkinter as tk
 import pandas as pd
 import yfinance as yf
 
@@ -11,24 +12,37 @@ class NasdaqTickerSymbol:
     """
 
     def __init__(self):
-        pass
-
-    def download_ticker_symbols(self):
         """
         download the ticker symbols. USes data available from nasdaq to
         download all traded ticker symbols
         """
         url = 'http://ftp.nasdaqtrader.com/dynamic/SymDir/nasdaqtraded.txt'
         data_file = pd.read_csv(url, delimiter='|')
-        data_file = data_file[data_file['Test Issue']
-                              == 'N']  # remove test issues
+        data_file = data_file[data_file['Test Issue'] == 'N']  # remove test issues
         # remove non-active issues
         data_file = data_file[data_file['Financial Status'] == 'N']
         data_file = data_file[data_file['ETF'] == 'N']  # remove ETFs
         data_file = data_file[['Symbol']]
         data_file = data_file.rename(columns={'Symbol': 'Ticker'})
+        self.tickers_list = data_file['Ticker'].tolist()
+        self.window = tk.Tk()
+        self.window.title = "Ticker Selector"
+        self.label = tk.Label(self.window, text = "Select the ticker symbol you want to download")
+        self.label.pack(pady=10)
+        self.selected_symbol = tk.StringVar()
+        self.selected_symbol.set(self.tickers_list[0])
+        self.selected_ticker = self.selected_symbol.get()
+        self.dropdown = tk.OptionMenu(self.window, self.selected_symbol,*self.tickers_list)
+        self.dropdown.pack(pady=10)
+        self.button = tk.Button(self.window, text="Select", command=self.get_ticker)
+        self.button.pack(pady=10)
+        self.window.mainloop()
 
-        return data_file['Ticker'].tolist()
+    def get_ticker(self):
+        """
+        Return value
+        """
+        return self.selected_ticker
 
     def __str__(self):
         return f"{NasdaqTickerSymbol} object"
